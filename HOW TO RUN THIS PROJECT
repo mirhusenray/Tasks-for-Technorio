@@ -1,0 +1,18 @@
+To run this project just follow the given command one after another
+1. Composer install
+2. php artisan key:generate
+3. manage .env file to mysql
+4. php artisan migrate
+5. import my database 
+6. php artisan ser
+
+
+Admin_User login details:
+
+email: admin@gmail.com
+password: 12345678
+
+User login details:
+
+email: user@gmail.com
+password: 12345678
