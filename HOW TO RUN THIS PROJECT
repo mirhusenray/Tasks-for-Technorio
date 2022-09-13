@@ -3,8 +3,8 @@ To run this project just follow the given command one after another
 2. php artisan key:generate
 3. manage .env file to mysql
 4. php artisan migrate
-5. import my database 
-6. php artisan ser
+5. import my database  or php artisan db:seed
+6. php artisan ser 
 
 
 Admin_User login details:
