@@ -13,7 +13,9 @@ class MovieController extends Controller
     }
     public function index()
     {
-       return view('movie.index');
+        $movies=Movie::all();
+        $data=compact('movies');
+       return view('movie.index')->with($data);
     }
 
     /**
@@ -23,7 +25,7 @@ class MovieController extends Controller
      */
     public function create()
     {
-        //
+        return view('movie.create');
     }
 
     /**
@@ -34,7 +36,26 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'release_date'=>'required',
+            'title'=>'required',
+            'description'=>'required',
+            'poster'=>'required'
+          
+        ]);
+        $movies = new Movie;
+        $movies->release_date = $request['release_date'];
+        $movies->title = $request['title'];
+        $movies->description = $request['description'];
+   
+        if ($request->file('poster')) {
+
+            $poster = $request->file('poster')->store('Movie', 'uploads');
+            $movies->poster = $poster;
+        }
+        $movies->status =0;
+        $movies->save();
+        return redirect()->route("movies.index")->with('status','Movie is successfully stored');
     }
 
     /**
@@ -43,9 +64,13 @@ class MovieController extends Controller
      * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Http\Response
      */
-    public function show(Movie $movie)
+    public function show($id)
     {
-        //
+        $movies = Movie::findOrFail($id);
+        $url = url('movies') . "/" . $id;
+        $method="PUT";
+        $data=compact('movies','url','method');
+        return view('movie.edit')->with($data);
     }
 
     /**
@@ -54,9 +79,9 @@ class MovieController extends Controller
      * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Http\Response
      */
-    public function edit(Movie $movie)
+    public function edit($id)
     {
-        //
+       
     }
 
     /**
@@ -66,9 +91,21 @@ class MovieController extends Controller
      * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Movie $movie)
+    public function update(Request $request,$id)
     {
-        //
+        $movies = Movie::findOrFail($id);
+        $movies->release_date = $request['release_date'];
+        $movies->title = $request['title'];
+        $movies->description = $request['description'];
+   
+        if ($request->file('poster')) {
+
+            $poster = $request->file('poster')->store('Movie', 'uploads');
+            $movies->poster = $poster;
+        }
+        $movies->status =$request['status'];
+        $movies->save();
+        return redirect()->route("movies.index")->with('status','Movie is successfully updated');
     }
 
     /**

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->LongText('description');
             $table->date('release_date');
             $table->LongText('poster');
+            $table->integer('status');
             $table->timestamps();
         });
     }
