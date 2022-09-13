@@ -43,7 +43,7 @@ class FavoriteController extends Controller
     //    dd($check);
       if($check->count())
       {
-        return redirect()->back()->with('dislike','Opps your dislike this movie');
+        return redirect()->back()->with('already','Already added in our favorite movie list');
       }
       else
       {

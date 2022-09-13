@@ -57,11 +57,4 @@ class HomeController extends Controller
         return redirect('login');
     }
 
-    public function ajaxRequest(Request $request){
-
-
-        $post = Movie::find($request->id);
-        $response = auth()->user()->toggleLike($post);
-        return response()->json(['success'=>$response]);
-    }
 }
