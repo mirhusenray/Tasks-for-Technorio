@@ -1,3 +1,4 @@
+use Illuminate\Support\Facades\Auth;
 @extends('layouts.dashboard_app')
 @section('content')
 
@@ -42,9 +43,9 @@
             </div>
             <div class="col-md-4 social text-right">
                 <ul>
-                    <li> {{ Auth::user()->name }}<a class="dropdown-item" href="{{ url('sign-out') }}" >
+                    <li> {{ Auth::user()->name }}<a class="dropdown-item" href="{{ url('sign-out') }}">
                             {{ __('Logout') }}
-                            
+
                         </a></li>
 
                 </ul>
@@ -103,11 +104,11 @@
 
                     </li>
                     <li class="dropdown megamenu-fw">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Favorite Movies </a>
-                       
+                        <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg">My Favorite Movies </a>
+
                     </li>
 
-                   
+
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div>
@@ -123,7 +124,7 @@
     <div id="bootcarousel" class="carousel text-medium slide carousel-fade animate_text" data-ride="carousel">
         <!-- Wrapper for slides -->
         <div class="carousel-inner text-light carousel-zoom">
-          
+
             <div class="item active">
                 <div class="slider-thumb bg-cover" style="background-image: url({{url('banners/2.jpg')}})"></div>
                 <div class="box-table shadow dark">
@@ -132,10 +133,10 @@
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="content">
-                                    <h2 data-animation="animated slideInRight">We work for Find your
+                                        <h2 data-animation="animated slideInRight">We work for Find your
                                             Favorite <strong>Action Movies</strong></h2>
                                         <p data-animation="animated slideInLeft">
-                                        A film – also called a movie, motion picture, moving picture, picture or
+                                            A film – also called a movie, motion picture, moving picture, picture or
                                             photoplay – is a work of visual art that simulates experiences and otherwise
                                             communicates ideas, stories, perceptions, feelings, beauty, or atmosphere
                                             through the use of moving
@@ -160,7 +161,7 @@
                                         <h2 data-animation="animated slideInRight">We work for Find your
                                             Favorite <strong>Horror Movies</strong></h2>
                                         <p data-animation="animated slideInLeft">
-                                        A film – also called a movie, motion picture, moving picture, picture or
+                                            A film – also called a movie, motion picture, moving picture, picture or
                                             photoplay – is a work of visual art that simulates experiences and otherwise
                                             communicates ideas, stories, perceptions, feelings, beauty, or atmosphere
                                             through the use of moving
@@ -194,10 +195,15 @@
     ============================================= -->
 <div class="team-area default-padding bg-gray bottom-less">
     <div class="container">
+        @if (session('status'))
+        <div class="alert alert-success" role="alert">
+            {{ session('status') }}
+        </div>
+        @endif
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="site-heading text-center">
-                   
+
                     <h2>Movies list</h2>
                 </div>
             </div>
@@ -206,26 +212,30 @@
             <div class="row">
                 <!-- Single Item -->
                 @foreach($movies as $key=>$data)
+                @if($data->status==1)
                 <div class="single-item col-md-3 col-sm-6">
                     <div class="item">
                         <div class="thumb">
                             <img src="{{ asset('uploads/' . $data->poster) }}" alt="Thumb">
                             <ul class="social">
                                 <li class="facebook">
-                                    <a href="#">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
+                                    <form action="{{route('favorites.store')}}" id="contact_form" method="post">
+                                        {{csrf_field()}}
+                                        <input name="user_id" type="hidden" value="{{Auth::user()->id}}" />
+                                        <input name="movie_id" type="hidden" value="{{$data->id}}" />
+                                        <button type="submit" class="badge badge-success">Like</button>
+                                    </form>
                                 </li>
+                                <br>
                                 <li class="twitter">
-                                    <a href="#">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
+                                
                                 </li>
-                                <li class="behance">
-                                    <a href="#">
-                                        <i class="fab fa-behance"></i>
-                                    </a>
-                                </li>
+
+                                <!-- <form action="{{ route('favorites.destroy',$data->id) }}" method="POST">
+    {{ method_field('DELETE') }}
+    {{ csrf_field() }}
+    <button>Delete User</button> -->
+</form>
                             </ul>
                         </div>
                         <div class="info">
@@ -236,11 +246,51 @@
                         </div>
                     </div>
                 </div>
-             @endforeach
+                @else
+                @endif
+                @endforeach
             </div>
         </div>
     </div>
 </div>
 <!-- End Team Area -->
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">S.N</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Release Date</th>
+                        <th scope="col">Poster</th>
+                      
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach($favorites as $key=>$data)
+                    <tr>
+                        <th scope="row">{{$key++}}</th>
+                        <td>{{$data->movie->title}}</td>
+                        <td>{{$data->movie->description}}</td>
+                        <td>{{$data->movie->release_date}}</td>
+                        <td>
+                            <img src="{{ asset('uploads/' . $data->movie->poster) }}" width="100px" height="100px"
+                                alt="" onclick="image(this)">
+                        </td>
+
+                    </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 
 @endsection

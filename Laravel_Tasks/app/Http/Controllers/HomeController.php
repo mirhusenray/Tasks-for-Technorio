@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -27,7 +28,12 @@ class HomeController extends Controller
     public function index()
     {
         $movies=Movie::all();
-        $data=compact('movies');
+     
+
+        $user = Auth::user();
+        $favorites = Favorite::where("user_id", "=", $user->id)->orderby('id', 'desc')->paginate(10);
+        // dd($favorites);
+        $data=compact('movies','favorites');
         return view('home')->with($data);
     }
 
@@ -43,5 +49,13 @@ class HomeController extends Controller
         Auth::logout();
 
         return redirect('login');
+    }
+
+    public function ajaxRequest(Request $request){
+
+
+        $post = Movie::find($request->id);
+        $response = auth()->user()->toggleLike($post);
+        return response()->json(['success'=>$response]);
     }
 }

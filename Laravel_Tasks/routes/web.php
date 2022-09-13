@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\FavoriteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,5 +27,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::get('admin/home', [HomeController::class, 'adminHome'])->name('admin.home')->middleware('is_admin');
-Route::resource('movies',MovieController::class);
+Route::resource('movies',MovieController::class)->middleware('is_admin');
+
+Route::resource('favorites',FavoriteController::class);
 Route::get('sign-out', [HomeController::class, 'perform']);
+
+Route::post('ajaxRequest',[HomeController::class,'ajaxRequest'])->name('ajaxRequest');

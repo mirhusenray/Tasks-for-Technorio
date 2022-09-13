@@ -11,6 +11,7 @@ class MovieController extends Controller
     {
         $this->middleware('auth');
     }
+    
     public function index()
     {
         $movies=Movie::all();
