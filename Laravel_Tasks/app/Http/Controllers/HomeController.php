@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use App\Models\User;
 use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,7 @@ class HomeController extends Controller
     public function index()
     {
         $movies=Movie::all();
-     
+
 
         $user = Auth::user();
         $favorites = Favorite::where("user_id", "=", $user->id)->orderby('id', 'desc')->paginate(10);
@@ -39,13 +40,18 @@ class HomeController extends Controller
 
     public function adminHome()
     {
-        return view('admin-home');
+        $total_movies=Movie::count();
+        $total_user=User::where('is_admin',0)->count();
+        $total_admin_user=User::where('is_admin',1)->count();
+        $total_liked=Favorite::count();
+      $data=compact('total_movies','total_user','total_admin_user','total_liked');
+        return view('admin-home')->with($data);
     }
 
     public function perform()
     {
         Session::flush();
-        
+
         Auth::logout();
 
         return redirect('login');

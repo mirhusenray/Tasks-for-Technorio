@@ -19,7 +19,10 @@
                         </div>
                     @endif
 
-                    You are admin.
+                    <button class="btn btn-success">Total Movies: {{$total_movies}}</button>
+                    <button class="btn btn-success">Total User: {{$total_user}}</button>
+                    <button class="btn btn-success">Total Admin User: {{$total_admin_user}}</button>
+                    <button class="btn btn-success">Total Likes: {{$total_liked}}</button>
                 </div>
             </div>
         </div>

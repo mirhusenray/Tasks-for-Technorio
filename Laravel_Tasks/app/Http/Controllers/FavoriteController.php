@@ -6,6 +6,7 @@ use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class FavoriteController extends Controller
 {
     /**
@@ -36,11 +37,21 @@ class FavoriteController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $favorite=new Favorite;
+       $check=Favorite::where('user_id',Auth::user()->id)->where('movie_id',$request->movie_id)->get();
+    //    dd($check);
+      if($check->count())
+      {
+        return redirect()->back()->with('dislike','Opps your dislike this movie');
+      }
+      else
+      {
         $favorite->movie_id=$request['movie_id'];
         $favorite->user_id=Auth::user()->id;
         $favorite->save();
+      }
+
         return redirect()->back()->with('status','Thanks for  are liked this movie');
     }
 

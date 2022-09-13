@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Models;
-use Overtrue\LaravelFollow\Traits\CanBeLiked;
+// use Overtrue\LaravelFollow\Traits\CanBeLiked;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
 class Movie extends Model
 {
-    use CanBeLiked;
+    // use CanBeLiked;
     
     protected $fillable=[
         'title',

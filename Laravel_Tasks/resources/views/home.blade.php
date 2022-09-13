@@ -1,4 +1,4 @@
-use Illuminate\Support\Facades\Auth;
+
 @extends('layouts.dashboard_app')
 @section('content')
 
@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 <div class="se-pre-con"></div>
 <!-- Preloader Ends -->
 
-<!-- Start Header Top 
+<!-- Start Header Top
     ============================================= -->
 <div class="top-bar-area bg-dark text-light">
     <div class="container">
@@ -55,7 +55,7 @@ use Illuminate\Support\Facades\Auth;
 </div>
 <!-- End Header Top -->
 
-<!-- Header 
+<!-- Header
     ============================================= -->
 <header id="home">
 
@@ -118,7 +118,7 @@ use Illuminate\Support\Facades\Auth;
 </header>
 <!-- End Header -->
 
-<!-- Start Banner 
+<!-- Start Banner
     ============================================= -->
 <div class="banner-area text-center">
     <div id="bootcarousel" class="carousel text-medium slide carousel-fade animate_text" data-ride="carousel">
@@ -200,6 +200,11 @@ use Illuminate\Support\Facades\Auth;
             {{ session('status') }}
         </div>
         @endif
+        @if (session('dislike'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('dislike') }}
+        </div>
+        @endif
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="site-heading text-center">
@@ -228,14 +233,10 @@ use Illuminate\Support\Facades\Auth;
                                 </li>
                                 <br>
                                 <li class="twitter">
-                                
+
                                 </li>
 
-                                <!-- <form action="{{ route('favorites.destroy',$data->id) }}" method="POST">
-    {{ method_field('DELETE') }}
-    {{ csrf_field() }}
-    <button>Delete User</button> -->
-</form>
+
                             </ul>
                         </div>
                         <div class="info">
@@ -268,7 +269,7 @@ use Illuminate\Support\Facades\Auth;
                         <th scope="col">Description</th>
                         <th scope="col">Release Date</th>
                         <th scope="col">Poster</th>
-                      
+
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">

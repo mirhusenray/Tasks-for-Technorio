@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
@@ -11,7 +12,7 @@ class MovieController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
         $movies=Movie::all();
@@ -42,13 +43,13 @@ class MovieController extends Controller
             'title'=>'required',
             'description'=>'required',
             'poster'=>'required'
-          
+
         ]);
         $movies = new Movie;
         $movies->release_date = $request['release_date'];
         $movies->title = $request['title'];
         $movies->description = $request['description'];
-   
+
         if ($request->file('poster')) {
 
             $poster = $request->file('poster')->store('Movie', 'uploads');
@@ -82,7 +83,7 @@ class MovieController extends Controller
      */
     public function edit($id)
     {
-       
+
     }
 
     /**
@@ -98,7 +99,7 @@ class MovieController extends Controller
         $movies->release_date = $request['release_date'];
         $movies->title = $request['title'];
         $movies->description = $request['description'];
-   
+
         if ($request->file('poster')) {
 
             $poster = $request->file('poster')->store('Movie', 'uploads');
@@ -119,4 +120,14 @@ class MovieController extends Controller
     {
         //
     }
+
+    public function search()
+    {
+        $movie_search =Favorite::whereBetween('created_at', [request('from_date'), request('to_date')])
+        ->get();
+        $data=compact('movie_search');
+        return view('movie.search')->with($data);
+    }
+
+   
 }

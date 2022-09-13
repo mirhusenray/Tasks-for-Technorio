@@ -15,7 +15,7 @@
 <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <!-- Scripts -->
-    
+
 </head>
 <body>
     <div id="app">
@@ -24,9 +24,13 @@
                 <a class="navbar-brand class" href="{{ url('/') }}">
                    Dashboard
                 </a>
-                <a class="active" href="{{ url('movies') }}">
+                <a class="navbar-brand class" href="{{ url('movies') }}">
                  Movies
                 </a>
+
+                <a class="navbar-brand class" href="{{ url('search') }}">
+                   Search Movies
+                   </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
