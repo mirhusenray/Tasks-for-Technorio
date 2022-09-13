@@ -198,9 +198,9 @@
                     {{ session('status') }}
                 </div>
             @endif
-            @if (session('dislike'))
+            @if (session('already'))
                 <div class="alert alert-danger" role="alert">
-                    {{ session('dislike') }}
+                    {{ session('already') }}
                 </div>
             @endif
             <div class="row">

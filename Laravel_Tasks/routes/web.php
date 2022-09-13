@@ -36,4 +36,4 @@ Route::post('search',[MovieController::class,'search'])->name('movie.search');
 Route::resource('favorites',FavoriteController::class);
 Route::get('sign-out', [HomeController::class, 'perform']);
 
-Route::post('ajaxRequest',[HomeController::class,'ajaxRequest'])->name('ajaxRequest');
+
